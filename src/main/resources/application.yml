@@ -20,9 +20,16 @@ spring:
           uri: lb://employee-performance-service
           predicates:
             - Path=/api/performance/**
+          filters:
+            - AuthenticationFilter
 
-  profiles:
-    active: default
-
+#  profiles:
+#    active: dev
+#
 #  config:
-#    import: configserver:http://localhost:8083
+#    import: optional:configserver:http://localhost:8083
+
+
+eureka:
+  client:
+    enabled: false
