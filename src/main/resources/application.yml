@@ -19,7 +19,7 @@ spring:
         - id: employee-performance-service
           uri: lb://employee-performance-service
           predicates:
-            - Path=/api/performance/**
+            - Path=/api/eps/**
           filters:
             - AuthenticationFilter
 
