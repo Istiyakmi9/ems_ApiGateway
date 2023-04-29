@@ -24,7 +24,7 @@ spring:
             - AuthenticationFilter
 
   profiles:
-    active: default
+    active: dev
 
 ---
 spring:
