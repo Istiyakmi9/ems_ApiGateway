@@ -23,13 +23,19 @@ spring:
           filters:
             - AuthenticationFilter
 
-#  profiles:
-#    active: dev
-#
-#  config:
-#    import: optional:configserver:http://localhost:8083
+  profiles:
+    active: default
 
+---
+spring:
+  config:
+    activate:
+      on-profile: default
+    import: optional:configserver:http://localhost:8083
 
-eureka:
-  client:
-    enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: optional:configserver:http://configserver-service:8083
