@@ -44,18 +44,4 @@ spring:
             - AuthenticationFilter
 
   profiles:
-    active: default
-
----
-spring:
-  config:
-    activate:
-      on-profile: default
-    import: optional:configserver:http://localhost:8083
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-    import: optional:configserver:http://configserver-service:8083
+    active: ${profile:prod}

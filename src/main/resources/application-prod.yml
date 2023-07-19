@@ -1,0 +1,10 @@
+env:
+  folder: production-environment
+
+spring:
+  config:
+    import: optional:configserver:http://configserver-service:8083
+
+eureka:
+  client:
+    enabled: false
