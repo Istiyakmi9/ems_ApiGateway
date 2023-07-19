@@ -1,0 +1,12 @@
+env:
+  folder: development-environment
+
+spring:
+  config:
+    import: optional:configserver:http://localhost:8083
+
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka
