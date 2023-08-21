@@ -50,8 +50,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                             .parseClaimsJws(authorizationHeader)
                             .getBody();
 
-                    String email = claims.get("email", String.class);
                     String sid = claims.get("sid", String.class);
+                    String user = claims.get("JBot", String.class);
+                    String companyCode = claims.get("CompanyCode", String.class);
+                    String role = claims.get("role", String.class);
+
+                    exchange.getAttributes().put("userDetail", user);
+                    exchange.getAttributes().put("sid", sid);
+                    exchange.getAttributes().put("role", role);
+                    exchange.getAttributes().put("companyCode", companyCode);
 
                 } catch (ExpiredJwtException e) {
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Your session got expired");

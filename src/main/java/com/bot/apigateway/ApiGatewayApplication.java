@@ -16,12 +16,4 @@ public class ApiGatewayApplication {
 
 	@Autowired
 	private DiscoveryClient discoveryClient;
-
-//	@Bean
-//	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-//		return builder.routes()
-//				.route("employee-performance-service", r -> r.path("/performance/api/**")
-//						.uri("http://employee-performance-service:8081"))
-//				.build();
-//	}
 }
