@@ -1,5 +1,8 @@
 package com.bot.apigateway.filter;
 
+import com.bot.apigateway.model.DatabaseConfiguration;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +25,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public static class Config { }
     @Autowired
     private RouteValidator routeValidator;
+
+    @Autowired
+    MasterDataConnections masterDataConnections;
+    @Autowired
+    ObjectMapper objectMapper;
 
     public AuthenticationFilter() {
         super(Config.class);
@@ -56,10 +64,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     String user = claims.get("JBot", String.class);
                     String companyCode = claims.get("CompanyCode", String.class);
 
+                    String dbConnections = getConnection(companyCode);
+
                     modifiedExchange = exchange.mutate()
                             .request(exchange.getRequest().mutate()
                                     .headers(httpHeaders -> httpHeaders.add("userDetail", user))
                                     .headers(httpHeaders -> httpHeaders.add("sid", sid))
+                                    .headers(httpHeaders -> httpHeaders.add("database", dbConnections))
                                     .headers(httpHeaders -> httpHeaders.add("companyCode", companyCode))
                                     .build())
                             .build();
@@ -73,5 +84,22 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             return chain.filter(modifiedExchange);
         });
+    }
+
+    private String getConnection(String companyCode) throws Exception {
+        String value = null;
+        var result = masterDataConnections.getConnection(companyCode);
+        if(result.isPresent()) {
+            ObjectWriter w = objectMapper.writer();
+            value = w.writeValueAsString(result.get());
+
+            if (value == null || value.isEmpty()) {
+                throw new Exception("Invalid company code used. Please contact to admin.");
+            }
+        } else {
+            throw new Exception("Invalid company code used. Please contact to admin.");
+        }
+
+        return value;
     }
 }

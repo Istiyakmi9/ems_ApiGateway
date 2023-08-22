@@ -11,23 +11,42 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ConfigurationProperties(prefix = "spring.datasource")
 @Component("MasterDataConnections")
 public class MasterDataConnections {
     @Autowired
     ObjectMapper mapper;
+    private List<DatabaseConfiguration> databaseConfigurations;
     String driver;
     String url;
     String username;
     String password;
 
-    public void loadMasterConnections() {
+    public Optional<DatabaseConfiguration> getConnection(String companyCode) throws Exception {
+        var codes = companyCode.split("-");
+        if(codes.length != 2) {
+            throw new Exception("Invalid company code used. Please contact to admin.");
+        }
+
+        return databaseConfigurations.stream()
+                .filter(x -> x.getOrganizationCode().equals(codes[0]) && x.getCode().equals(codes[1]))
+                .findFirst();
+    }
+
+    public void loadMasterConnections() throws Exception {
         getDatasource();
         String query = "select * from database_connections";
         List<Map<String, Object>> result = getTemplate().queryForList(query);
-        var value = mapper.convertValue(result, new TypeReference<List<DatabaseConfiguration>>() {});
-        System.out.println(value.toString());
+        databaseConfigurations = mapper.convertValue(result, new TypeReference<List<DatabaseConfiguration>>() {});
+        if(databaseConfigurations == null) {
+            throw new Exception("Unable to load master data. Please contact to admin.");
+        }
+
+        if(databaseConfigurations.size() == 0) {
+            throw new Exception("Empty master data loaded. Please contact to admin.");
+        }
     }
 
     private DriverManagerDataSource getDatasource() {

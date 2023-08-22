@@ -1,7 +1,11 @@
 package com.bot.apigateway.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DatabaseConfiguration {
     @JsonProperty("OrganizationCode")
     String organizationCode;
