@@ -5,6 +5,12 @@ spring:
   config:
     import: optional:configserver:http://configserver-service:8083
 
+  datasource:
+    driver: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://194.233.76.48:3306/ems_master
+    username: istiyak
+    password: live@Bottomhalf_011
+
 eureka:
   client:
     enabled: false
