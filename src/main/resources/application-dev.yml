@@ -5,17 +5,11 @@ spring:
   config:
     import: optional:configserver:http://localhost:8083
 
-#  datasource:
-#    driver: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://192.168.0.101:3306/ems_master
-#    username: istiyak
-#    password: live@Bottomhalf_001
-
   datasource:
     driver: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://194.233.76.48:3306/ems_master
-    username: istiyak
-    password: live@Bottomhalf_011
+    url: jdbc:mysql://tracker.io:3308/ems_master
+    username: root
+    password: live@Bottomhalf_001
 
 eureka:
   client:
