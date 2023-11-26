@@ -37,7 +37,7 @@ spring:
             - AuthenticationFilter
 
         - id: employee-project-service
-          uri: lb://employee-project-service
+          uri: lb://project-service
           predicates:
             - Path=/api/ps/**
           filters:
