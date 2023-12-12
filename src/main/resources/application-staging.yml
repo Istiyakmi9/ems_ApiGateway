@@ -7,7 +7,7 @@ spring:
 
   datasource:
     driver: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://tracker.io:3308/ems_master
+    url: jdbc:mysql://192.168.0.101:3308/ems_master
     username: root
     password: live@Bottomhalf_001
 
