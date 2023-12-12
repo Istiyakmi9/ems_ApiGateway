@@ -1,8 +1,5 @@
 env:
-  folder: local-environment
-
-env:
-  folder: production-environment
+  folder: staging-environment
 
 spring:
   config:
