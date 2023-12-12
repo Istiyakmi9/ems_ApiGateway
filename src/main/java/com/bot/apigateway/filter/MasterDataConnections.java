@@ -20,9 +20,7 @@ import java.util.Optional;
 public class MasterDataConnections {
     @Autowired
     ObjectMapper mapper;
-
-    @Autowired
-    Logger logger = LoggerFactory.getLogger(MasterDataConnections.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(MasterDataConnections.class);
     private List<DatabaseConfiguration> databaseConfigurations;
     String driver;
     String url;
@@ -45,7 +43,7 @@ public class MasterDataConnections {
         String query = "select * from database_connections";
         List<Map<String, Object>> result = getTemplate().queryForList(query);
 
-        logger.info("[DATABASE] Data loaded successfully");
+        LOGGER.info("[DATABASE] Data loaded successfully");
         databaseConfigurations = mapper.convertValue(result, new TypeReference<List<DatabaseConfiguration>>() {});
         if(databaseConfigurations == null) {
             throw new Exception("Unable to load master data. Please contact to admin.");

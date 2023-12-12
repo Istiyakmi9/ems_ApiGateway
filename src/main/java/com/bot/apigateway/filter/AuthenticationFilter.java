@@ -1,6 +1,5 @@
 package com.bot.apigateway.filter;
 
-import com.bot.apigateway.model.DatabaseConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import io.jsonwebtoken.Claims;
@@ -27,10 +26,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     public static class Config { }
     @Autowired
     private RouteValidator routeValidator;
-
-    @Autowired
-    Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
-
+    private final static Logger LOGGER = LoggerFactory.getLogger(AuthenticationFilter.class);
     @Autowired
     MasterDataConnections masterDataConnections;
     @Autowired
@@ -46,7 +42,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             ServerWebExchange modifiedExchange = null;
             if(routeValidator.isSecured.test(exchange.getRequest())) {
                 // check Authorizatrion header -- ServerWebExchange
-                logger.info("[URL REQUESTED]: " + exchange.getRequest().getURI().getPath());
+                LOGGER.info("[URL REQUESTED]: " + exchange.getRequest().getURI().getPath());
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     throw new RuntimeException("Unauthorization access. Token is missing.");
                 }
