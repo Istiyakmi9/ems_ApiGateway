@@ -14,4 +14,4 @@ EXPOSE 8090
 
 COPY --from=MAVEN /build/target/apigateway.jar /app/
 
-ENTRYPOINT ["java", "-jar", "apigateway.jar", "--spring.profiles.active=prod"]
+ENTRYPOINT ["java", "-jar", "apigateway.jar", "--spring.profiles.active=dev"]
