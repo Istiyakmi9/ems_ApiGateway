@@ -7,6 +7,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -27,6 +29,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     private RouteValidator routeValidator;
 
     @Autowired
+    Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
+
+    @Autowired
     MasterDataConnections masterDataConnections;
     @Autowired
     ObjectMapper objectMapper;
@@ -41,6 +46,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             ServerWebExchange modifiedExchange = null;
             if(routeValidator.isSecured.test(exchange.getRequest())) {
                 // check Authorizatrion header -- ServerWebExchange
+                logger.info("[URL REQUESTED]: " + exchange.getRequest().getURI().getPath());
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     throw new RuntimeException("Unauthorization access. Token is missing.");
                 }
