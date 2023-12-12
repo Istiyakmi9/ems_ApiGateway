@@ -1,6 +1,6 @@
 FROM maven:3.8.1-openjdk-17 AS MAVEN
 
-MAINTAINER BOTTOMHALF
+MAINTAINER BOTTOMHALF-STAGING
 
 COPY pom.xml /build/
 COPY src /build/src/
@@ -14,4 +14,4 @@ EXPOSE 8090
 
 COPY --from=MAVEN /build/target/apigateway.jar /app/
 
-ENTRYPOINT ["java", "-jar", "apigateway.jar", "--spring.profiles.active=dev"]
+ENTRYPOINT ["java", "-jar", "apigateway.jar", "--spring.profiles.active=staging"]
