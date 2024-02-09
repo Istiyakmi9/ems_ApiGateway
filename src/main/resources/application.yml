@@ -43,5 +43,12 @@ spring:
           filters:
             - AuthenticationFilter
 
+        - id: jobs-service
+          uri: lb://jobs-service
+          predicates:
+            - Path=/api/jobs/**
+          filters:
+            - AuthenticationFilter
+
   profiles:
     active: ${profile:prod}
