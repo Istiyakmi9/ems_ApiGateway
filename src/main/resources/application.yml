@@ -43,8 +43,8 @@ spring:
           filters:
             - AuthenticationFilter
 
-        - id: jobs-service
-          uri: lb://jobs-service
+        - id: kafkajob-service
+          uri: lb://kafkajob-service
           predicates:
             - Path=/api/jobs/**
           filters:
