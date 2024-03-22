@@ -66,6 +66,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     String user = claims.get("JBot", String.class);
                     String companyCode = claims.get("CompanyCode", String.class);
 
+                    if(companyCode == null || companyCode.length() != 8) {
+                        throw new Exception("Invalid company code used. Please contact to admin.");
+                    }
+
                     String dbConnections = getConnection(companyCode);
 
                     modifiedExchange = exchange.mutate()

@@ -28,13 +28,11 @@ public class MasterDataConnections {
     String password;
 
     public Optional<DatabaseConfiguration> getConnection(String companyCode) throws Exception {
-        var codes = companyCode.split("-");
-        if(codes.length != 2) {
-            throw new Exception("Invalid company code used. Please contact to admin.");
-        }
+        var companyName = companyCode.substring(0, 3);
+        var code = companyCode.substring(3);
 
         return databaseConfigurations.stream()
-                .filter(x -> x.getOrganizationCode().equals(codes[0]) && x.getCode().equals(codes[1]))
+                .filter(x -> x.getOrganizationCode().equals(companyName) && x.getCode().equals(code))
                 .findFirst();
     }
 
