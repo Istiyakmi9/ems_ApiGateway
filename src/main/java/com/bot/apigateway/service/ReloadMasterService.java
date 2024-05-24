@@ -2,11 +2,29 @@ package com.bot.apigateway.service;
 
 import com.bot.apigateway.ApiGatewayApplication;
 import com.bot.apigateway.filter.MasterDataConnections;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReloadMasterService {
-    public void reloadMasterData() throws Exception {
-        MasterDataConnections masterDataConnections = (MasterDataConnections)context.getBean("MasterDataConnections");
-        masterDataConnections.loadMasterConnections();
+    @Autowired
+    MasterDataConnections masterDataConnections;
+    public boolean reloadMasterData(boolean isReLoad, String... arg) throws Exception {
+        var flag = false;
+        try {
+            if (!isReLoad) {
+                var context = SpringApplication.run(ApiGatewayApplication.class, arg);
+                MasterDataConnections masterDbConnection = (MasterDataConnections) context.getBean("MasterDataConnections");
+                masterDbConnection.loadMasterConnections();
+            } else {
+                masterDataConnections.loadMasterConnections();
+            }
+
+            flag = true;
+        } catch (Exception e) {
+            throw new Exception((e.getMessage()));
+        }
+        return flag;
     }
 }

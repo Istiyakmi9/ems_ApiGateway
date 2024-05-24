@@ -14,17 +14,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
-    @Autowired
-    ReloadMasterService reloadMasterService;
     public static void main(String[] args) throws Exception {
-        var context = SpringApplication.run(ApiGatewayApplication.class, args);
-       /* MasterDataConnections masterDataConnections = (MasterDataConnections)context.getBean("MasterDataConnections");
-        masterDataConnections.loadMasterConnections();*/
-    }
-
-    @Bean
-    public void reloadMaster() throws Exception {
-        reloadMasterService.reloadMasterData();
+        ReloadMasterService reloadMasterService = new ReloadMasterService();
+        reloadMasterService.reloadMasterData(false);
     }
 
     @Autowired
