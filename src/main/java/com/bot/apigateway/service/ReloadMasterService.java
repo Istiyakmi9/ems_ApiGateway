@@ -11,7 +11,6 @@ public class ReloadMasterService {
     @Autowired
     MasterDataConnections masterDataConnections;
     public boolean reloadMasterData(boolean isReLoad, String... arg) throws Exception {
-        var flag = false;
         try {
             if (!isReLoad) {
                 var context = SpringApplication.run(ApiGatewayApplication.class, arg);
@@ -21,10 +20,10 @@ public class ReloadMasterService {
                 masterDataConnections.loadMasterConnections();
             }
 
-            flag = true;
         } catch (Exception e) {
             throw new Exception((e.getMessage()));
         }
-        return flag;
+
+        return true;
     }
 }
